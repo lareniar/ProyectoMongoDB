@@ -14,4 +14,4 @@ importantes que veremos en la aplicación serán los siguientes:
    
 **2. CRUD básico.**
 **3. Uso de Codec Registry.**
-**4. Desarrollo de una aplicación con ejemplo de CRUD*.*
+**4. Desarrollo de una aplicación con ejemplo de CRUD.**
