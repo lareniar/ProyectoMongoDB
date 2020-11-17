@@ -1,4 +1,6 @@
 # Proyecto MongoDB
+![GitHub Logo](./img/logo.png)
+
 Documentación para 2DAM3 de IEFPS Plaiaundi por Leire Sarobe y Aritz Eguiguren
 
 ## Contenido
