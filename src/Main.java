@@ -35,12 +35,12 @@ public class Main {
         // Mongo trabaja con documentos y sino con listas, en este caso al hacer
         // insertOne(), nos pide un documento. Si hicieramos insertMany(), nos
         // pedirÃ­a una Lista de documentos.
-        /*Document dataDocument = new Document("_id", new ObjectId());
+        Document dataDocument = new Document("_id", new ObjectId());
         dataDocument.append("name", "Carlos")
             .append("surname", "García")
             .append("email", "c.g@gmail.com");
 
-        datos.insertOne(dataDocument);*/
+        datos.insertOne(dataDocument);
 
 
         // recorrer datos
@@ -54,7 +54,7 @@ public class Main {
         System.out.println(list.get(2));
 
         
-        //update con $set
+        //update
         //UPDATE UN CAMPO CON EL WHERE DE OTRO CAMPO.
         BasicDBObject query = new BasicDBObject();
         query.put("surname", "García"); // indicamos el campo que debe localizar para saber que row tiene que modificar
@@ -64,7 +64,8 @@ public class Main {
         new BasicDBObject().append("name", "Carlos"));//el campo que queremos modificar y el nuevo valor
         dbConnection.getCollection("datos").updateMany(query, updateQuery);
         
-       /*UPDATE UN CAMPO CONCRETO 
+       /*
+        * UPDATE UN CAMPO CONCRETO *
         BasicDBObject query = new BasicDBObject();
         query.put("name", "García"); // indicamos el campo que vamos a modificar en el documento y el valor actual 
         BasicDBObject newDocument = new BasicDBObject();
@@ -77,12 +78,10 @@ public class Main {
        */
         
         
-        //update con $inc
-        
-        
         
         
         //delete
+        //datos.deleteOne(new Document("_id", new ObjectId("5fb3a109c6fab0330860020a")));
 
     }
 }
