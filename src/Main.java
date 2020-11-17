@@ -1,3 +1,4 @@
+import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
@@ -34,17 +35,17 @@ public class Main {
         // Mongo trabaja con documentos y sino con listas, en este caso al hacer
         // insertOne(), nos pide un documento. Si hicieramos insertMany(), nos
         // pedirÃ­a una Lista de documentos.
-//        Document dataDocument = new Document("_id", new ObjectId());
-//        dataDocument.append("name", "Carlos")
-//            .append("surname", "GarcÃ­a")
-//            .append("email", "c.g@gmail.com");
+        /*Document dataDocument = new Document("_id", new ObjectId());
+        dataDocument.append("name", "Carlos")
+            .append("surname", "García")
+            .append("email", "c.g@gmail.com");
 
-//        datos.insertOne(dataDocument);
+        datos.insertOne(dataDocument);*/
 
 
         // recorrer datos
         Document data = (Document) datos.find().first();
-        var list = new ArrayList<>(data.values());
+        ArrayList list = new ArrayList<>(data.values());
         System.out.println("ID");
         System.out.println(list.get(0));
         System.out.println("Nombre");
@@ -52,6 +53,36 @@ public class Main {
         System.out.println("Apellido");
         System.out.println(list.get(2));
 
+        
+        //update con $set
+        //UPDATE UN CAMPO CON EL WHERE DE OTRO CAMPO.
+        BasicDBObject query = new BasicDBObject();
+        query.put("surname", "García"); // indicamos el campo que debe localizar para saber que row tiene que modificar
+        //hacemos el update y set
+        BasicDBObject updateQuery = new BasicDBObject();
+        updateQuery.append("$set",
+        new BasicDBObject().append("name", "Carlos"));//el campo que queremos modificar y el nuevo valor
+        dbConnection.getCollection("datos").updateMany(query, updateQuery);
+        
+       /*UPDATE UN CAMPO CONCRETO 
+        BasicDBObject query = new BasicDBObject();
+        query.put("name", "García"); // indicamos el campo que vamos a modificar en el documento y el valor actual 
+        BasicDBObject newDocument = new BasicDBObject();
+        newDocument.put("name", "Leire"); //asignamos el nuevo valor al campo seleccionado
+       
+        BasicDBObject updateObject = new BasicDBObject();
+        updateObject.put("$set", newDocument); // hacemos el set 
+       
+        dbConnection.getCollection("datos").updateOne(query, updateObject); //hacemos el update pasando la query y el set del nuevo objeto
+       */
+        
+        
+        //update con $inc
+        
+        
+        
+        
+        //delete
 
     }
 }
