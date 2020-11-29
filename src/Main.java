@@ -1,5 +1,6 @@
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;
+import com.mongodb.MongoClientOptions;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
@@ -9,6 +10,9 @@ import db.DbConnection;
 import db.DocumentActions;
 
 import org.bson.Document;
+import org.bson.codecs.configuration.CodecRegistries;
+import org.bson.codecs.configuration.CodecRegistry;
+import org.bson.codecs.configuration.CodecProvider;
 import org.bson.types.ObjectId;
 
 import java.lang.reflect.Array;
@@ -17,62 +21,64 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+    	 View view = new View();
+    	  
         // creamos una instancia
         DbConnection mongoConnection = new DbConnection();
-
         // nos conectamos al servidor
         MongoClient databaseConnection = mongoConnection.startConnection();
-
         // nos conectamos a la base de datos con la anterior conexiÃ³n del servidor
         // (es posible que se requiera contraseÃ±a)
         MongoDatabase dbConnection = mongoConnection.connectToDatabase(databaseConnection, "ProyectoMongoDB");
-
-        // con el objeto dbConnection podemos empezar a
-//        for (String name : dbConnection.listCollectionNames()) {
-//
-//            System.out.println(name);
-//        }
-
+   
+        /* CODEC REGISTRY */
+        
+        CodecRegistry pojoCodecRegistry = CodecRegistries.fromRegistries(MongoClient.getDefaultCodecRegistry());
+		MongoClient cliente = new MongoClient("localhost", 
+		    MongoClientOptions.builder().codecRegistry(pojoCodecRegistry).build());
+		MongoDatabase dbCodec = cliente.getDatabase("ProyectoMongoDB");
+		/*/CODEC REGISTRY*/
+		
         DocumentActions documentActions = new DocumentActions();
         Scanner sc = new Scanner(System.in);
+        System.out.println("nombre de la bd a manipular");
         String collectionName = sc.nextLine();
         // devuelve la colección para poder manipularla y hacer CRUD
         MongoCollection collection = documentActions.getCollection(dbConnection, collectionName);
-        
-        
-        documentActions.insertDocument(collection);
 
+        boolean exit = false;
+		while(!exit){
+            String choiceValue = view.returnChoiceValue();
+            switch (choiceValue){
+                case "1":
+                	documentActions.insertDocument(collection);
+                    break;
+                    
+                case "2":
+                	documentActions.printAll(collection);
+                    break;
+                case "3":
+                	documentActions.updateField(dbConnection);
+                    break;
 
-        documentActions.printAll(collection);
-     
-        //update
-        //UPDATE UN CAMPO CON EL WHERE DE OTRO CAMPO.
-        BasicDBObject query = new BasicDBObject();
-        query.put("surname", "García"); // indicamos el campo que debe localizar para saber que row tiene que modificar
-        //hacemos el update y set
-        BasicDBObject updateQuery = new BasicDBObject();
-        updateQuery.append("$set",
-        new BasicDBObject().append("name", "Carlos"));//el campo que queremos modificar y el nuevo valor
-        dbConnection.getCollection("datos").updateMany(query, updateQuery);
+                case "4":
+                	documentActions.deleteField(collection);
+                	break;
+            	case "5":
+                	documentActions.insertCodecRegistry(dbCodec);
+                	break;
+                case "0":
+                    exit = true;
+                    break;
+            }
+        }
         
-       /*
-        * UPDATE UN CAMPO CONCRETO *
-        BasicDBObject query = new BasicDBObject();
-        query.put("name", "García"); // indicamos el campo que vamos a modificar en el documento y el valor actual 
-        BasicDBObject newDocument = new BasicDBObject();
-        newDocument.put("name", "Leire"); //asignamos el nuevo valor al campo seleccionado
-       
-        BasicDBObject updateObject = new BasicDBObject();
-        updateObject.put("$set", newDocument); // hacemos el set 
-       
-        dbConnection.getCollection("datos").updateOne(query, updateObject); //hacemos el update pasando la query y el set del nuevo objeto
-       */
+
         
         
         
         
-        //delete
-        //datos.deleteOne(new Document("_id", new ObjectId("5fb3a109c6fab0330860020a")));
+        
 
     }
 }
