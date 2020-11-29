@@ -1,0 +1,51 @@
+[{
+  "_id": {
+    "$oid": "5fc39de1a3ea1d0b68fbede7"
+  },
+  "nombre": "Aritz",
+  "apellido": "Aramburu",
+  "email": "a@e.com",
+  "departamentos_id": {
+    "$oid": "5fbcdb1f4b5f8fe039714e8b"
+  }
+},{
+  "_id": {
+    "$oid": "5fc39deaa3ea1d0b68fbede8"
+  },
+  "nombre": "Leire",
+  "apellido": "Sarobe",
+  "email": "l@s.com",
+  "departamentos_id": {
+    "$oid": "5fbcdb644b5f8fe039714e8d"
+  }
+},{
+  "_id": {
+    "$oid": "5fc39e36a3ea1d0b68fbede9"
+  },
+  "nombre": "Javier",
+  "apellido": "Garcia",
+  "email": "j@g.com",
+  "departamentos_id": {
+    "$oid": "5fbcdb644b5f8fe039714e8d"
+  }
+},{
+  "_id": {
+    "$oid": "5fc39e41a3ea1d0b68fbedea"
+  },
+  "nombre": "Maria",
+  "apellido": "Azcarate",
+  "email": "m@a.com",
+  "departamentos_id": {
+    "$oid": "5fbcdb1f4b5f8fe039714e8b"
+  }
+},{
+  "_id": {
+    "$oid": "5fc3a05ea3ea1d41f8340e83"
+  },
+  "nombre": "Julia",
+  "apellido": "Martin",
+  "email": "a@m.com",
+  "departamentos_id": {
+    "$oid": "5fbcdb644b5f8fe039714e8d"
+  }
+}]

@@ -24,6 +24,8 @@ public class DocumentActions {
 		}
 	
 	public void insertDocument(MongoCollection collection) {
+		 String department_id = null;
+		 
 		// Mongo trabaja con documentos y sino con listas de documentos, en este caso al hacer
         // insertOne(), nos pide un documento. Si hicieramos insertMany(), nos
         // pediría una Lista de documentos.
@@ -36,25 +38,35 @@ public class DocumentActions {
         System.out.println("Email");
         String email = sc.nextLine();
         
-        dataDocument.append("name", name)
-            .append("surname", surname)
-            .append("email", email);
+        System.out.println("Elige el departamento, escribe 1 para Tecnologia o 2 para informatica.");
+        String id = sc.nextLine();
+        if(id.equals("1")) {
+        	department_id = "5fbcdb1f4b5f8fe039714e8b";
+        }else {
+        	department_id = "5fbcdb644b5f8fe039714e8d";
+        }
+        
+
+		dataDocument.append("nombre", name)
+            .append("apellido", surname)
+            .append("email", email)
+            .append("departamentos_id", new ObjectId(department_id ));
 
         collection.insertOne(dataDocument);
 	}
 	
 	public void printAll(MongoCollection collection) {
         Document data=new Document();
-        MongoCursor<Document> cursor = collection.find(Filters.eq("departamentos_id",new ObjectId("5fbcdb644b5f8fe039714e8d"))).iterator();
+        MongoCursor<Document> cursor = collection.find().iterator();
 
         try {
             while (cursor.hasNext()) {
             	Document obj = cursor.next();//guardamos en un documento el elemento que encuentre
-                System.out.println(obj.get("nombre") + " " + obj.get("departamentos_id"));//imprimimos el key del elemento que queramos
+                System.out.println(obj.get("nombre") + " " + obj.get("apellido") + " " + obj.get("email") + " " + obj.get("departamentos_id") );//imprimimos el key del elemento que queramos
 
             	JSONObject json= new JSONObject();
             	//json.put(cursor.next().toJson());
-                System.out.println(cursor.next().toJson());
+                //System.out.println(cursor.next().toJson());
             }
         } finally {
             cursor.close();
@@ -68,22 +80,22 @@ public class DocumentActions {
         //UPDATE UN CAMPO CON EL WHERE DE OTRO CAMPO.
         BasicDBObject query = new BasicDBObject();
         System.out.println("Busqueda de fila");
-        System.out.println("Columna");
+        System.out.println("Campo (nombre, apellido o email)");
         String columna = sc.nextLine();
-        System.out.println("Referencia de la columna");
+        System.out.println("Referencia de la columna (Contenido por el que buscar)");
         String referencia = sc.nextLine();
         query.put(columna, referencia); // indicamos el campo que debe localizar para saber que row tiene que modificar
         
         //hacemos el update y set
         BasicDBObject updateQuery = new BasicDBObject();
         
-        System.out.println("Columna");
+        System.out.println("Campo a modificar(nombre, apellido o email)");
         columna = sc.nextLine();
-        System.out.println("Contenido");
+        System.out.println("Nuevo contenido del campo");
         String contenido = sc.nextLine();
         updateQuery.append("$set",
         new BasicDBObject().append(columna, contenido));//el campo que queremos modificar y el nuevo valor
-        dbConnection.getCollection("datos").updateMany(query, updateQuery);
+        dbConnection.getCollection("trabajadores").updateMany(query, updateQuery);
         
         
        /*
@@ -102,17 +114,34 @@ public class DocumentActions {
 	
 	public void deleteField(MongoCollection collectionName ) {
 		//delete
-		System.out.println("Email");
-        String email = sc.nextLine();
-		collectionName.deleteOne(new Document("email", new ObjectId(email)));
+		System.out.println("Nombre");
+        String name = sc.nextLine();
+		collectionName.deleteOne(new Document("nombre", name));
 	}
 	
 	public void insertCodecRegistry(MongoDatabase dbCodec) {
-		
+			String department_id = null;
+	        
+	        System.out.println("Nombre");
+	        String name = sc.nextLine();
+	        System.out.println("Apellido");
+	        String surname = sc.nextLine();
+	        System.out.println("Email");
+	        String email = sc.nextLine();
+	        
+	        System.out.println("Elige el departamento, escribe 1 para Tecnologia o 2 para informatica.");
+	        String id = sc.nextLine();
+	        if(id.equals("1")) {
+	        	department_id = "5fbcdb1f4b5f8fe039714e8b";
+	        }else {
+	        	department_id = "5fbcdb644b5f8fe039714e8d";
+	        }
+	        
 		Document documento = new Document()
-		         .append("name", "Maria")
-		         .append("surname", "Gutierrez")
-		         .append("email", "m@maria.com");
-		dbCodec.getCollection("datos").insertOne(documento);
+		         .append("nombre", name)
+		         .append("apellido", surname)
+		         .append("email", email)
+	             .append("departamentos_id", new ObjectId(department_id));
+		dbCodec.getCollection("trabajadores").insertOne(documento);
 	}
 }

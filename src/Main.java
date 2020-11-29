@@ -41,7 +41,7 @@ public class Main {
 		
         DocumentActions documentActions = new DocumentActions();
         Scanner sc = new Scanner(System.in);
-        System.out.println("nombre de la bd a manipular");
+        System.out.println("Nombre de la colección a manipular: ");
         String collectionName = sc.nextLine();
         // devuelve la colección para poder manipularla y hacer CRUD
         MongoCollection collection = documentActions.getCollection(dbConnection, collectionName);

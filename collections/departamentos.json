@@ -1,0 +1,11 @@
+[{
+  "_id": {
+    "$oid": "5fbcdb1f4b5f8fe039714e8b"
+  },
+  "nombre": "Tecnologia"
+},{
+  "_id": {
+    "$oid": "5fbcdb644b5f8fe039714e8d"
+  },
+  "nombre": "informatika"
+}]
